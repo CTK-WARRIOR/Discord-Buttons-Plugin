@@ -1,0 +1,24 @@
+{
+  "name": "discord-buttons-plugin",
+  "version": "1.0.0",
+  "description": "easiest medium to use buttons with any discord API wrapper",
+  "main": "discordButtons.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/CTK-WARRIOR/Discord-Buttons-Plugin.git"
+  },
+  "bugs": {
+    "url": "https://github.com/CTK-WARRIOR/Discord-Buttons-Plugin/issues"
+  },
+  "keywords": [
+    "discord-buttons-plugin",
+    "discordButtons",
+    "discord-buttons",
+    "discord-button-client"
+  ],
+  "author": "ctk",
+  "license": "ISC"
+}
