@@ -23,9 +23,9 @@ buttonClient.on("click", (inta) => inta.message.reply("Thanks for clicking me :3
 
 ### L I N K S
 - 🐱‍💻 Guide/Docs : `Not Available`
-- 💬 Dicord: https://withwin.in/dbd
+- 💬 Discord: https://withwin.in/dbd
 - 😎 Youtube: [DBD AND MORE](https://www.youtube.com/channel/UClAFgotVhZ1DGvN57EMY7fA)
-- 📺 Video Tutorial: `Not Out`
+- 📺 Video Tutorial: `https://www.youtube.com/watch?v=MDTCm2Xxu5c`
 - ⚙ Tools Used: [Node-Fetch](https://www.npmjs.com/search?q=node%20fetch) | [Events](https://www.npmjs.com/package/events)
 - 👩‍💻 Developer: `CTK WARRIOR#7923`
 
@@ -77,7 +77,10 @@ client.on("message", (message) => {
 
 /* Listen to buttons event with their ID */
 buttonClient.on("yes", (inta) => inta.message.reply("Thanks, I love you :3"))
-buttonClient.on("no", (inta) => inta.message.reply("WTF, you are the worst person, i have ever seen"))
+buttonClient.on("no", (inta) => {
+	inta.message.delete()
+	inta.message.reply("WTF, you are the worst person, i have ever seen")
+})
 
 client.login("TOKEN") 
 ```
