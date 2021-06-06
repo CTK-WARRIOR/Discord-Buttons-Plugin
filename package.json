@@ -1,6 +1,6 @@
 {
   "name": "discord-buttons-plugin",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "easiest medium to use buttons with any discord API wrapper",
   "main": "discordButtons.js",
   "scripts": {
