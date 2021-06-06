@@ -7,6 +7,9 @@ const fetch = require("node-fetch")
  * @param  {discord.Client} client               
  */
 module.exports = async (interaction, client) => {
+  const guild = client.guilds.cache.get(interaction.guild_id) || await client.guilds.fetch(interaction.guild_id).catch(err => {});
+  const channel = guild.channels.cache.get(interaction.channel_id) || await guild.channels.fetch(interaction.channel_id).catch(err => {})
+  const message = channel.messages.cache.get(interaction.message.id) || await channel.messages.fetch(interaction.message.id).catch(err => {})
 
   /**
    * Reply method
@@ -18,7 +21,7 @@ module.exports = async (interaction, client) => {
    * @param  {Int} options.flags                            
    */
   const reply = async function(content, { embed, files, tts, allowed_mentions, flags, ephemeral }={}) {
-  let message = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
+  let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
     headers: {
         'Authorization': `Bot ${client.token}`,
         "Content-Type": 'application/json'
@@ -27,9 +30,12 @@ module.exports = async (interaction, client) => {
       body: JSON.stringify({ type: 4, data: { content, embed, files, tts, allowed_mentions, flags: ephemeral ? 64 : flags }})
   })
 
-  message = await message.json().catch(err => {})
+  json = await json.json().catch(err => {})
 }
 
+if(guild) interaction.guild = guild;
+if(channel) interaction.channel = channel;
+if(message) interaction.message = message;
 interaction.message.reply = reply;
 return interaction;
 }
