@@ -20,7 +20,7 @@ module.exports = async (interaction, client) => {
    * @param  {Object} options.allowed_mentions
    * @param  {Int} options.flags                            
    */
-  interaction.reply = async function(content, { embed=[], files, tts, allowed_mentions, flags, ephemeral }={}) {
+  interaction.reply = async function(content, { embed, files, tts, allowed_mentions, flags, ephemeral }={}) {
 
   let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
     headers: {
@@ -28,30 +28,22 @@ module.exports = async (interaction, client) => {
         "Content-Type": 'application/json'
       },
       method: "POST",
-      body: JSON.stringify({ type: 4, data: { content, embeds: embed.length ? embed : [embed], files, tts, allowed_mentions, flags: ephemeral ? 64 : flags }})
+      body: JSON.stringify({ type: 4, data: { content, embeds: embed, files, tts, allowed_mentions, flags: ephemeral ? 64 : flags }})
   })
 
   json = await json.json().catch(err => {})
 }
 
-/**
- * Ping Method
- */
-interaction.ping = async function() {
-  let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
-    headers: {
-        'Authorization': `Bot ${client.token}`,
-        "Content-Type": 'application/json'
-      },
-      method: "POST",
-      body: JSON.stringify({ type: 4 })
-  })
-
-  json = await json.json().catch(err => {})
-}
 
 /**
  * Update Method
+   * @param  {String} content                  
+   * @param  {MessageEmbed} options.embed           
+   * @param  {Attachments} options.files           
+   * @param  {Boolean} options.tts              
+   * @param  {Object} options.allowed_mentions
+   * @param  {Int} options.flags       
+   * @param {Array} options.buttons
  */
 interaction.update = async function(content, { embed, files, tts, allowed_mentions, flags, buttons }={}) {
   
@@ -69,7 +61,7 @@ interaction.update = async function(content, { embed, files, tts, allowed_mentio
         "Content-Type": 'application/json'
       },
       method: "POST",
-      body: JSON.stringify({ type: 7, data: { content, embeds: embed.length ? embed : [embed], files, tts, allowed_mentions, flags, components}})
+      body: JSON.stringify({ type: 7, data: { content, embeds: embed, files, tts, allowed_mentions, flags, components}})
   })
 
   json = await json.json().catch(err => {})
