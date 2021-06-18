@@ -20,23 +20,64 @@ module.exports = async (interaction, client) => {
    * @param  {Object} options.allowed_mentions
    * @param  {Int} options.flags                            
    */
-  const reply = async function(content, { embed, files, tts, allowed_mentions, flags, ephemeral }={}) {
+  interaction.reply = async function(content, { embed, files, tts, allowed_mentions, flags, ephemeral }={}) {
   let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
     headers: {
         'Authorization': `Bot ${client.token}`,
         "Content-Type": 'application/json'
       },
       method: "POST",
-      body: JSON.stringify({ type: 4, data: { content, embed, files, tts, allowed_mentions, flags: ephemeral ? 64 : flags }})
+      body: JSON.stringify({ type: 4, data: { content, embeds: embed.length ? embed : [embed], files, tts, allowed_mentions, flags: ephemeral ? 64 : flags }})
   })
 
   json = await json.json().catch(err => {})
 }
 
+/**
+ * Ping Method
+ */
+interaction.ping = async function() {
+  let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
+    headers: {
+        'Authorization': `Bot ${client.token}`,
+        "Content-Type": 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({ type: 4 })
+  })
+
+  json = await json.json().catch(err => {})
+}
+
+/**
+ * Update Method
+ */
+interaction.update = async function(content, { embed, files, tts, allowed_mentions, flags, buttons }={}) {
+  
+   let components = !buttons ? null : []
+   if(buttons) {
+   for(let buttonArray of buttons) {
+            components.push({type: 1, components: buttonArray})
+      }
+   }
+
+
+  let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
+    headers: {
+        'Authorization': `Bot ${client.token}`,
+        "Content-Type": 'application/json'
+      },
+      method: "POST",
+      body: JSON.stringify({ type: 7, data: { content, embeds: embed.length ? embed : [embed], files, tts, allowed_mentions, flags, components}})
+  })
+
+  json = await json.json().catch(err => {})
+
+}
+
 if(guild) interaction.guild = guild;
 if(channel) interaction.channel = channel;
 if(message) interaction.message = message;
-interaction.message.reply = reply;
 return interaction;
 }
 
