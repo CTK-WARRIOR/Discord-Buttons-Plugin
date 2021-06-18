@@ -20,7 +20,8 @@ module.exports = async (interaction, client) => {
    * @param  {Object} options.allowed_mentions
    * @param  {Int} options.flags                            
    */
-  interaction.reply = async function(content, { embed, files, tts, allowed_mentions, flags, ephemeral }={}) {
+  interaction.reply = async function(content, { embed=[], files, tts, allowed_mentions, flags, ephemeral }={}) {
+
   let json = await fetch(`https://discord.com/api/v8/interactions/${interaction.id}/${interaction.token}/callback`, {
     headers: {
         'Authorization': `Bot ${client.token}`,
