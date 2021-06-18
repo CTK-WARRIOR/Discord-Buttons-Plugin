@@ -19,7 +19,8 @@
 ```
 
 ```js
-buttonClient.on("click", (inta) => inta.message.reply("Thanks for clicking me :3"))
+/* listen to interaction */
+buttonClient.on("click", (inta) => inta.reply("Thanks for clicking me :3")) //emits whenever the button is clicked
 ```
 
 ### L I N K S
